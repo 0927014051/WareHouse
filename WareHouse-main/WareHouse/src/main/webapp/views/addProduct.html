@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- icons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+
+    <!-- My CSS -->
+    <link rel="stylesheet" href="../assets/css/manager.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+
+    <title>Product</title>
+    <!-- JS -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+</head>
+<style>
+    body{
+        background-color: transparent;
+        overflow-y: hidden;
+    }
+
+    .info-product .info li{
+        min-width: 70%;
+    }
+    .info-product .info li h3:first-child, .info-product .info li h4:first-child{
+        min-width: 80px;
+    }
+    .info-product input{
+        min-width: 80%;
+    }
+    .div_img input{
+        width: fit-content;
+        text-align: center;
+    }
+    .div_img{
+        align-items: center;
+        /* border: 1px solid black; */
+        display: block;
+    }
+    .div_img .img_product{
+        min-height: 110px;
+        min-width: 130px;
+        max-height: 110px;
+        max-width: 130px; 
+        border: 1px dashed #767575;
+        margin-top: 10px;
+        border-radius: 10px;
+    }
+    .div_img li:last-child{
+        display: block;
+    }
+    .sub_info .list{
+        display: flex;
+        gap: 15px;
+        border: 1px solid black;
+        border-radius: 7px;
+        min-width: 100%;
+        align-items: center;
+    }
+    .sub_info .list .contentList{
+        display: flex;
+        gap: 15px;
+        padding: 10px;
+        align-items: center;
+    }
+    .sub_info .list .contentList div{
+        border: 1px solid black;
+        padding: 4px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .sub_info .list .contentList div span{
+        font-size: 16px;
+    }
+    .sub_info .list div:focus{
+        background-color: hsl(33, 87%, 70%);
+        font-weight: bold;
+    }
+    .btn_add{
+        color: green;
+    }
+   
+</style>
+<body>
+<!-- <div style="padding: 0; display: block;" class="detail product" id="detail">    -->
+    <div style="width: 100%; height: 100%; margin: 0;" class="detail-content product">
+        <!-- <span class="close_chitiet" onclick="closeDetail()">&times;</span> -->
+        <div class="info-product">
+            <div class="header-detail" style="display: flex;">
+                <div style="display: flex;">
+                    <input style="padding: 4px 5px; " type="submit" onclick="sendSizeAndColor()" value="Save">
+                </div>
+            </div>
+            <form style="display: flex; padding: 10px 0;">
+                <div style="flex: 5; justify-content: center;">
+                    <ul class="info">
+                        <li>
+                            <h3 class="id">ID:</h3>
+                            <input style="height: 80%; font-size: large;" type="text" name="idProduct" class="id" id="idProduct">
+                        </li>
+                        <li>
+                            <h3>Name: </h3>
+                            <input type="text" class="name" name = "product_name" id = "product_name"></input>
+                        </li>
+                        <li class="sub_info" style="display: block;">
+                            <h3>Size: </h3>
+                            <div class="list">
+                                <div class="contentList list_size">
+                                    <div class="6"><span>6</span></div>
+                                    <div class="7"><span>7</span></div>
+                                    <div class="8"><span>8</span></div>
+                                    <div class="9"><span>9</span></div>
+                                    <div class="10"><span>10</span></div>
+                                    <div class="11"><span>11</span></div>
+                                </div>
+                                <a class="btn_add">
+                                    <i class="lni lni-circle-plus"></i>
+                                </a>
+                                <input style="display: none; max-width: 50px;min-width: 50px; text-align: center;" type="number" min="3" max="15" class="input_addOption">
+                            </div>
+                        </li>
+                        <li class="sub_info" style="display: block;">
+                            <h4>Color:</h4>
+                            <div class="list">
+                                <div class="contentList color list_color">
+                                    <div class="Black"><span>Black</span></div>
+                                    <div class="White"><span>White</span></div>
+                                    <!-- <div class="Red"><span>Red</span></div>
+                                    <div class="Blue"><span>Blue</span></div> -->
+                                </div>
+                                <a class="btn_add color">
+                                    <i class="lni lni-circle-plus"></i>
+                                </a>
+                                <input style="display: none; max-width: 50px;min-width: 50px; text-align: center;" type="text" min="3" max="15"
+
+                                    class="input_addOption">
+                            </div>
+                        </li>
+                        <li>
+                            <h4>Object: </h4>
+                            <input type="text" class="obj" name = "object" id = "object"></input>
+                        </li>
+                        <li>
+                            <h4>Category:</h4>
+                            <input type="text" class="category" name = "category_id" id = "category_id"></input>
+                        </li>
+                        
+                        <li>
+                            <h4>Material:</h4>
+                            <input type="text" class="mal" name = "material" id = "material"></input>
+                        </li>
+                        <li>
+                            <h4>Mfg:</h4>
+                            <input type="date" class="mfg" name = "mfg" id = "mfg"></input>
+                        </li>
+                         <li>
+                            <h3>Price:</h3>
+                            <input type="text"
+                                class="prc" id = "price"></input>
+                            <h3>$</h3>
+                        </li> 
+                    </ul>
+                </div>
+                <div class="div_img" style="flex: 5;text-align: center;">
+                    <ul class="img">
+                        <li>
+                            <span>Made in</span>
+                            <input style="font-weight: 200; font-style: italic; max-width: 150px; margin-left: 10px;" type="text" class="suppl" name = "supplier_id" id = "supplier_id"></input>
+                        </li>
+                        <!-- <li>
+                            <input type="file" name="" class="input__img">
+                        </li> -->
+                        <li style="display: grid; grid-template-columns: auto auto auto; gap: 10px">
+                            <div class = "Black">
+                            <P>Black</P>
+                            <img src="" id ="Black" class="img_product">
+                            </div>
+                            <div class ="White">
+                                <p>White</p>
+                                <img src="" id ="White" class="img_product" alt="">
+                            </div>
+                        </li>
+                        <!-- <li>
+                            <span>Add image from URL</span>
+                            <input style="padding: 5px; border-radius: 5px;" type="text" class="input__img" value="">
+                        </li> -->
+                    </ul>
+                </div>          
+            </form>
+        </div>
+    </div>
+<!-- </div> -->
+</body>
+<!-- <script src="assets/js/main.js"></script>   -->
+<script> 
+    // Xu li input type = 'file'
+        const imgProduct = document.getElementsByClassName("img_product");
+        for (let i = 0; i < imgProduct.length; i++) {
+            imgProduct[i].addEventListener("click", addImg);    
+        }
+        const btn_size = document.querySelectorAll(".list .contentList div");
+        for (let i = 0; i < btn_size.length; i++) {       
+            btn_size[i].addEventListener("click", saveSelected);
+        }
+        const btn_addOption = document.getElementsByClassName("btn_add");
+            for (let i = 0; i < btn_addOption.length; i++) {
+                btn_addOption[i].addEventListener("click", addOption);
+        }
+    
+
+       function addImg(event) {
+            imgProducts = event.currentTarget;
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = 'image/*';
+            fileInput.onchange = function (event) {
+                // const file = event.target.files[0];
+                // const reader = new FileReader();
+                // reader.onload = function (e) {
+                //     imgProducts.src = e.target.result;
+                //     console.log(imgProducts.src);
+                // };
+                // reader.readAsDataURL(file);
+                var fileName = fileInput.value.substring(fileInput.value.lastIndexOf("\\") + 1);
+                imgProducts.src = "../assets/img/product/" + fileName;
+                console.log(imgProducts.src);
+            };
+            fileInput.click();
+            
+        }
+        //add Option
+        function addOption(event) {
+            var btn_add = event.currentTarget;
+            var div_list = btn_add.parentNode.querySelector(".contentList");
+            var input_add = btn_add.parentNode.getElementsByClassName("input_addOption")[0];
+            input_add.style.display = "block";
+            if (input_add.addEventListener("change", function(){
+                if (document.getElementsByClassName(input_add.value).length < 1 && input_add.value !==""){
+                    var newOption = document.createElement("div");
+                    newOption.classList.add(input_add.value.trim());
+                    var newContent = `<span>${input_add.value}</span>`
+                    newOption.innerHTML = newContent;
+                    div_list.append(newOption);
+                    newOption.addEventListener("click", saveSelected)
+                    
+                    if (btn_add.className === "btn_add color"){
+                        var ul = document.getElementsByClassName("img")[0];
+                        var newImg = document.createElement("div");
+                        newImg.classList.add(input_add.value.trim());
+                        var contentImg = `<p>${input_add.value}</p>
+                                        <img src="" id=" ${input_add.value}" class="img_product"  alt="">`
+                        var imgFirst = ul.querySelectorAll("li")[1];
+                        newImg.innerHTML = contentImg;
+                        imgFirst.append(newImg);
+                        newImg.getElementsByClassName("img_product")[0].addEventListener("click", addImg)
+                    } 
+                    input_add.value="";
+                }  
+            }));
+        }
+        //del select
+        var arr = [];
+        function saveSelected(event) {
+            var selected = event.currentTarget;
+            selected.style.backgroundColor = "hsl(31, 76%, 74%)"; 
+            arr.push(selected.className);
+        }  
+
+        // del();
+       
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "Delete") {
+                    for (let y = 0; y < arr.length; y++) {
+                        console.log(arr[y]);
+                        var element = document.getElementsByClassName(arr[y])[0];
+                        var img = document.getElementsByClassName(arr[y])[1];
+                        console.log(img)
+                            if(img)
+                                img.remove();
+                            if(element)
+                                element.remove();
+                    }
+                    arr = [];
+                }
+                
+            });
+        
+            
+       function sendSizeAndColor() {
+    var spanSizeList = Array.from(document.querySelectorAll('.list_size span')).map(span => span.textContent);
+    var spanColorList = Array.from(document.querySelectorAll('.list_color span')).map(span => span.textContent);
+
+    var product_id = document.querySelector('#idProduct').value;
+    var product_name = document.querySelector('#product_name').value;
+    var object = document.querySelector('#object').value;
+    var category_id = document.querySelector('#category_id').value;
+    var supplier_id = document.querySelector('#supplier_id').value;
+    var material = document.querySelector('#material').value;
+    var mfg = document.querySelector('#mfg').value;
+    
+	// Lấy danh sách tất cả các phần tử <img> trong danh sách <li>
+	var imageElements = document.querySelectorAll('li img.img_product');
+    var price = document.querySelector('#price').value;
+
+
+    var requestDataList = [];
+    var imageList = [];
+    for (var i = 0; i < imageElements.length; i++) {
+    var imgElement = imageElements[i];
+    var imageSrc = imgElement.getAttribute('src');
+    var maxStringLength = 100; // Độ dài tối đa của chuỗi
+	var truncatedImageSrc = imageSrc.substring(0, maxStringLength);
+    // Thêm đối tượng với thuộc tính "image" vào mảng requestDataList
+    imageList.push(truncatedImageSrc);
+}
+    requestDataList.push({ product_id: product_id });
+    requestDataList.push({ spanSizeList: spanSizeList });
+    requestDataList.push({ spanColorList: spanColorList });
+    requestDataList.push({ product_name: product_name });
+    requestDataList.push({ object: object });
+    requestDataList.push({ category_id: category_id });
+    requestDataList.push({ supplier_id: supplier_id });
+    requestDataList.push({ material: material });
+    // Duyệt qua danh sách các phần tử <img> và lấy đường dẫn hình ảnh
+    requestDataList.push({ imageList: imageList });
+    requestDataList.push({ mfg: mfg });
+    requestDataList.push({ price: price });
+
+    
+    
+console.log(requestDataList);
+    // Sử dụng Fetch API để gửi dữ liệu JSON đến controller
+    fetch('/manager/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestDataList)
+    })
+    .then(response => response.text())
+    .then(responseData => {
+        // Xử lý phản hồi từ server
+      	window.location.href = "/manager/product"; 
+    });
+} 
+</script>
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=http://www.thymeleaf.org>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- icons -->
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+
+	<!-- My CSS -->
+	<!-- <link rel="stylesheet" href="assets/css/manager.css">    -->
+
+	<!-- <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"> -->
+
+	<title>Inventory</title>
+	<!-- JS -->
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.min.js"
+        integrity="sha512-XmZS54be9JGMZjf+zk61JZaLZyjTRgs41JLSmx5QlIP5F+sSGIyzD2eJyxD4K6kGGr7AsVhaitzZ2WTfzpsQzg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/cpexcel.js"
+    integrity="sha512-yi8FNVU1yTsGyKcq01t6Ti5U2flfCXRvam3U00sPCRJUSMs/ZhghiJPyh25QmI5Tr3L87d+aS1Irozv4Qt631g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+	<!-- <script src="assets/js/table2excel.js"></script> -->
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+		p {
+			margin: 0;
+		}
+
+		a {
+			text-decoration: none;
+		}
+
+		.btn {
+			background-color: #94d88c;
+			border-color: none;
+			border-radius: 20px;
+			padding: 10px 15px;
+			color: #fff;
+			text-align: center;
+		}
+
+		.btn:hover {
+			background-color: rgb(121, 149, 112);
+			cursor: pointer;
+		}
+
+		input.btn {
+			border: none;
+		}
+
+		.inventory-content {
+			background-color: var(--body-color);
+			padding: 20px;
+			font-size: 16px;
+			font-family: 'Poppins';
+		}
+
+		.inventory-content .head_inventory {
+			display: flex;
+			justify-content: space-between;
+			font-size: 20px;
+		}
+
+		.inventory-content .head_inventory div {
+			text-align: center;
+		}
+
+		.inventory-content .title {
+			text-align: center;
+			margin-top: 30px;
+			font-size: 18px;
+		}
+
+		.inventory-content .info_inventory {
+			padding: 10px 30px;
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.inventory-content .info_inventory p {
+			margin-bottom: 5px;
+		}
+
+		.inventory-content .info_inventory #listMember {
+			width: 100%;
+		}
+
+		.inventory-content .info_inventory #listMember td input {
+			width: 200px;
+			border: none;
+		}
+
+		.inventory-content .info_product input {
+			border: none;
+			text-align: center;
+			max-width: 95%;
+			font-size: 16px;
+			color: black;
+			font-family: "Poppins";
+		}
+
+		.inventory-content .info_product table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-bottom: 20px;
+		}
+
+		.inventory-content .info_product table th,
+		.inventory-content .info_product table td {
+			border: 1px solid black;
+			text-align: center;
+		}
+
+		.inventory-content .info_product table td {
+			max-width: 100px;
+		}
+
+		.inventory-content .info_product i.bx-trash {
+			color: var(--red);
+			cursor: pointer;
+		}
+
+		.inventory-content .sign_request i {
+			float: right;
+			display: block;
+		}
+
+		.inventory-content .sign_request .sign-area {
+			display: flex;
+			margin: 20px 0 100px 0;
+			justify-content: center;
+			align-items: center;
+			font-weight: bold;
+		}
+
+		.inventory-content .sign_request .sign-area div img {
+			transform: rotate(45deg);
+		}
+
+		.inventory-content .sign_request .sign-area div {
+			flex: 5;
+			text-align: center;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div>
+		<!-- <a class="btn" href="dashboard.html">&lt;</a> -->
+		<div style="display: block; padding: 0;" class="inventory" id="">
+			<div class="inventory-content">
+				<div class="head_inventory">
+					<div>
+						<h4><i class='bx bxl-medium-old'></i> MY WAREHOUSE</h4>
+						<h5>Address: ABC, DEF, HG</h5>
+						<h5>001/BCKK</h5>
+					</div>
+					<div>
+						<h5>SOCIALIST REPUBLIC OF VIETNAM</h5>
+						<h5>Independence - Freedom - Happiness</h5>
+					</div>
+				</div>
+				<h3 class="title">INVENTORY INSPECTION REPORT FOR PRODUCT</h3>
+				<div class="info_inventory">
+					<div style="flex: 7;">
+						<p>Date of Inspection: <span th:text="${inventory.date}"> </span></p>
+						<table id="listMember">
+							<tbody>
+								<tr>
+									<td>
+										<span>Full Name: <span
+												th:text="${inventory.getStaffs().getFirst_name()} + ' ' + ${inventory.getStaffs().getLast_name()} ">
+											</span></span>
+									</td>
+									<td>
+										<span>Position: <span
+												th:text="${inventory.getStaffs().getRole().getRole_name()}">
+											</span></span>
+									</td>
+								</tr>
+								<tr id="row-hidden" style="display: none;">
+									<td>
+										<span>-</span>
+										<span>Full Name:</span>
+										<input type="text" name="" id="">
+									</td>
+									<td>
+									</td>
+
+									<td><i class='bx bx-trash'></i></td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+					<div style="flex: 3;">
+						<span>Order ID: <span
+											th:if="${(inventory.g_order_id != null and inventory.g_order_id != '') or (inventory.request_id != null and inventory.request_id != '')}">
+											<span
+												th:if="${inventory.g_order_id  != null and inventory.g_order_id  != ''}"
+												th:text="${inventory.g_order_id }"></span>
+											<span th:if="${inventory.request_id != null and inventory.request_id != ''}"
+												th:text="${inventory.request_id}"></span>
+										</span></span>
+
+					</div>
+				</div>
+				<p>We have conducted an inventory check of the warehouse and found the following items:</p>
+				<div class="info_product">
+					<form id="myForm" method="post">
+						<table id="product-table">
+							<thead>
+								<tr>
+									<th>No.</th>
+									<th>ID</th>
+									<th>Product ID</th>
+									<th>Name</th>
+									<th>Unit Price</th>
+									<th colspan="2">Accounting Data</th>
+									<th colspan="2">According to inventory</th>
+									<th colspan="2">Discrepancy</th>
+									<th colspan="3">Quality</th>
+								</tr>
+								<tr>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th>Quantity</th>
+									<th>Amount($)</th>
+									<th>Quantity</th>
+									<th>Amount($)</th>
+									<th>Excess</th>
+									<th>Shortage</th>
+									<th>Good 100%</th>
+									<th>Inferior Quality</th>
+									<th>Deteriorated</th>
+								</tr>
+							</thead>
+							<tbody th:utext="${tableHtml}">
+								<!--  <tr>
+                            <td></td>
+                            <td>
+                                <p></p>
+                            </td>
+                            <td>
+                                <p></p>
+                            </td>
+                            <td>
+                                <p></p>
+                            </td>
+                            <td>
+                                <p></p>
+                            </td>
+                            <td>
+                                <p></p>
+                            </td>--!>
+                            <td>
+                                <input type="number" name="" id="" min="0" value="">
+                            </td>
+                            <td>
+                                <input type="number" name="" id="" min="0" value="">
+                            </td>
+                            <td><p>0</p></td>
+                            <td><p>0</p></td>
+                            <td><input type="checkbox" name="" id=""></td>
+                            <td><input type="checkbox" name="" id=""></td>
+                            <td><input type="checkbox" name="" id=""></td>
+                        </tr>-->
+								<tr id="row-tmp" style="display: none;">
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+				<div class="sign_request">
+					<div class="sign-area">
+						<div>
+							<span>Stockkeeper</span>
+							<br>
+							<!-- <img src="assets/img/approved.png" alt=""> -->
+						</div>
+						<div>
+							<span>Sales Department</span>
+							<br>
+							<!-- <img src="assets/img/approved.png" alt=""> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="group-btn">
+		<div class="staff_inventory"  th:utext = "${buttonSaveSend}">
+		</div>
+		<div class="staff_inventory"  th:utext="${buttonAccept}">
+
+		
+		</div>
+			<div class="staff_inventory"  th:utext="${buttonCancel}">
+
+		
+		</div>
+		<div class="stockkeeper" th:utext="${buttonAdd}">
+		</div>
+		<input style="background-color: rgb(87, 173, 47); width: 100px;" class="btn" id="exportExcel" type="submit"
+			value="Export Excel">
+		<input style="background-color: rgb(248, 177, 85);" class="btn" id="export-pdf" type="submit"
+			value="Export PDF" />
+	</div>
+
+	<!--=============== MAIN JS ===============-->
+	<script src="../assets/js/main.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+	<script src="../assets/dist/jspdf.umd.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+
+	<!-- Export to Excel -->
+	<script>
+		document.getElementById("exportExcel").addEventListener("click", function () {
+			var table2excel = new Table2Excel();
+			table2excel.export(document.querySelectorAll("#table-to-export"));
+		})
+	</script>
+	<script>
+		window.jsPDF = window.jspdf.jsPDF
+		document.getElementById('export-pdf').addEventListener('click', function () {
+
+			var doc = new jsPDF({
+				format: 'a4',
+				orientation: 'landscape'// hoặc 'landscape' nếu bạn muốn làm ngang
+			});
+			// Lấy toàn bộ thẻ trong thẻ <body>
+			var content = document.querySelector(".inventory");
+			doc.html(content, {
+				callback: function (doc) {
+					doc.save('inventory.pdf');
+				},
+				margin: [10, 10, 10, 10],
+				autoPaging: 'text',
+				x: 0,
+				y: 0,
+				width: 270,
+				windowWidth: 1024
+			});
+
+		});
+
+		function sendValue() {
+			const formData = new FormData(document.getElementById("myForm"));
+			// Create an object to store the data
+			const data = {};
+
+			for (const [key, value] of formData.entries()) {
+				data[key] = value;
+			}
+			console.log(data);
+			// Send the data to the server using Fetch API
+			fetch('/manager/inventory/update', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			})
+				.then(response => response.text())
+				.then(responseData => {
+					// Xử lý phản hồi từ server
+					window.location.href = "/manager/inventory";
+				});
+		}
+		function sendValueAccept(reportId, orderId,status) {
+			const formData = new FormData(document.getElementById("myForm"));
+			// Create an object to store the data
+			const data = {};
+			data["g_order_id"] = orderId;
+			data["report_id"] = reportId;
+			
+			for (const [key, value] of formData.entries()) {
+				data[key] = value;
+			}
+			console.log(data);
+			// Send the data to the server using Fetch API
+			fetch('/manager/insert/receipt', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			})
+				.then(response => response.text())
+				.then(responseData => {
+					// Xử lý phản hồi từ server
+				window.location.href = "/manager/receipt";
+				});
+		}
+		
+		function sendValueIssue(reportId) {
+			const formData = new FormData(document.getElementById("myForm"));
+			// Create an object to store the data
+			const data = {};			
+			data["report_id"] = reportId;
+			for (const [key, value] of formData.entries()) {
+				data[key] = value;
+			}
+			console.log(data);
+			// Send the data to the server using Fetch API
+			fetch('/manager/insert/issue', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			})
+				.then(response => response.text())
+				.then(responseData => {
+					// Xử lý phản hồi từ server
+				window.location.href = "/manager/issue";
+				});
+		}
+		
+		
+		function sendAccept(reportId, orderId,status) {
+			// Create an object to store the data
+			const data = {};
+			data["g_order_id"] = orderId;
+			data["report_id"] = reportId;
+			data["status"] = status;
+			fetch('/manager/updateStatus', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			})
+				.then(response => response.text())
+				.then(responseData => {
+					// Xử lý phản hồi từ server
+				window.location.href = "/manager/inventory";
+				});
+		}
+
+
+		const tr = document.querySelectorAll("#product-table tbody tr");
+		for (let y = 0; y < tr.length; y++) {
+			var getValue = tr[y].getElementsByClassName("quality")[0].value;
+			console.log(getValue);
+			var quality = tr[y].getElementsByClassName("quality")[getValue - 1];
+			quality.checked = "true";
+		}
+
+
+
+		const checkBox = document.getElementsByClassName("quality");
+		for (let c = 0; c < checkBox.length; c++) {
+			checkBox[c].addEventListener("click", check_clicked);
+
+		}
+		function check_clicked(event) {
+			var checkBox = event.target;
+			var thisRow = checkBox.parentElement.parentElement;
+			var checkboxs = thisRow.querySelectorAll(".quality");
+			const classListArray = Array.from(checkBox.classList);
+			for (let y = 0; y < checkboxs.length; y++) {
+				checkboxs[y].value = classListArray[1];
+			}
+			console.log(checkboxs)
+			checkboxs.forEach(function (checkbox) {
+				checkbox.addEventListener('change', function () {
+					if (this.checked) {
+						// Hủy chọn tất cả các checkbox khác
+						checkboxs.forEach(function (otherCheckbox) {
+							if (otherCheckbox !== checkbox) {
+								otherCheckbox.checked = false;
+							}
+						});
+					}
+				});
+			});
+		}
+
+
+
+	</script>
+
+</body>

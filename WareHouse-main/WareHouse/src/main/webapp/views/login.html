@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=http://www.thymeleaf.org>
+
+
+<head>
+<meta charset="UTF-8">
+
+<title>Login</title>
+<link rel="stylesheet" href="../assets/css/login-new.css">
+<link rel="stylesheet" href="../assets/css/toast.css">
+
+<link href="https://cdn.lineicons.com/4.0/lineicons.css"
+	rel="stylesheet" />
+<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css'
+	rel='stylesheet'>
+
+</head>
+<body>
+	<div class="container" id="container">
+		<ul class="notifications"></ul>
+		<div class="form-container register-container">
+			<form action="" id="register-form" method="post">
+				<h1>Đăng Kí</h1>
+				<input id="input__userName" type="text" placeholder="Tên đăng nhập"
+					oninput="validateUsername()"> <span class="txt_error"></span>
+				<input id="input__pass" type="password" placeholder="Mật khẩu"
+					oninput="validatePass()"> <span class="txt_error"></span> <input
+					id="input__rePass" type="password" placeholder="Xác nhận mật khẩu"
+					oninput="validateRePass()"> <span class="txt_error"></span>
+				<input type="text" placeholder="Số điện thoại"> <input
+					type="email" placeholder="Email"> <a class="button"
+					id="btn__signUp" style="margin: 0 0;" href="OTP.html">Đăng kí</a>
+			</form>
+		</div>
+		<div class="form-container login-container" id="login-container">
+
+			<form action="login/submit" method="POST"
+				style="justify-content: start;" id="loginForm">
+				<h1>Đăng Nhập</h1>
+				<input type="email" name="username" placeholder="Email" value="">
+				<input type="password" name="password" placeholder="Password"
+					value="">
+				<div class="content">
+					<div class="checkbox">
+						<input type="checkbox" name="rememberMe" id="checkbox"> <label>Ghi
+							nhớ</label>
+					</div>
+
+				</div>
+				<a type="submit" class="button" id="btn_login"
+					onclick="submitLogin()">Đăng nhập</a>
+			</form>
+		</div>
+		<div class="overlay-container">
+			<div class="overlay">
+				<div class="overlay-panel overlay-right">
+					<!-- <h1 class="logo" style="font-style:oblique;"><i class='bx bxl-medium-old'></i> MY WERAHOUSE</h1> -->
+					<!-- <h2 class="title">HỆ THỐNG QUẢN LÝ KHO THÔNG MINH HÀNG ĐẦU</h2> -->
+
+					<!-- <p>Nếu bạn chưa có tài khoản, bạn có thể đăng ki tại đây.</p>
+            <a class="ghost button" id="register">Đăng kí
+              <i class="lni lni-arrow-right register"></i>
+            </a> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="../assets/js/login.js"></script>
+	<script src="../assets/js/toast.js"></script>
+
+</body>
+<script th:inline="javascript">
+	document.addEventListener("keydown", function(event) {
+		if (event.key === "Enter") {
+			document.getElementById("btn_login").click();
+			submitLogin()
+		}
+	});
+	function submitLogin() {
+		// Lấy tham chiếu đến thẻ form và thẻ a
+		const registerForm = document.getElementById("loginForm");
+		const loginButton = document.getElementById("btn_login");
+
+		// Xử lý sự kiện khi người dùng click vào thẻ a
+
+		if (registerForm) {
+			registerForm.submit();
+		}
+	}
+
+	/*<![CDATA[*/
+	document.addEventListener("DOMContentLoaded", function() {
+		var message = /*[[${message}]]*/null;
+		if (message !== null && message === 1) {
+			createToast('error', 'Thông tin không được để trống!');
+			console.log(message);
+
+		}else if(message !== null && message === 2){
+			createToast('error', 'Tên đăng nhập không đúng!');
+
+		}else if(message !== null && message === 3){
+			createToast('error', 'Mật khẩu không đúng!');
+
+		}
+	});
+	/*]]>*/
+</script>
+<script>//<![CDATA[
+const disabledKeys = ["c", "C", "x", "J", "u", "I"];
+
+const showAlert = e => {
+  e.preventDefault();
+  createToast('error', "Vui lòng liên hệ admin để sử dụng!");
+};
+
+document.addEventListener("contextmenu", e => {
+  if (!(e.ctrlKey || e.metaKey)) { // Check both Ctrl and Command (for Mac)
+    showAlert(e);
+  }
+});
+
+document.addEventListener("keydown", e => {
+  if ((e.ctrlKey && disabledKeys.includes(e.key.toLowerCase())) || e.key === "F12") {
+    showAlert(e);
+  }
+});
+
+
+      window.addEventListener("load",function(){
+        try {
+          !function t(n) {
+            1 === ("" + n / n).length && 0 !== n || function() {}.constructor("debugger")(), t(++n)
+          }(0)
+        } catch (n) {
+          setTimeout(t, 100)
+        }
+      });
+//]]></script>
+
+</html>

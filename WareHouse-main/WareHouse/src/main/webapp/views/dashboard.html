@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=http://www.thymeleaf.org>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Boxicons -->
+<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css'
+	rel='stylesheet'>
+<!-- My CSS -->
+<link rel="stylesheet" href="../assets/css/manager.css">
+<link rel="stylesheet" href="../assets/css/styles.css">
+<link rel="stylesheet" href="../assets/css/export_request.css">
+
+<title>My Warehouse</title>
+<!-- JS -->
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+</head>
+<body>
+	<!-- HEADER -->
+	<header class="header" id="header">
+		<nav class="nav container">
+			<a href="" class="nav__logo"> <i class='bx bxl-medium-old'></i>MY
+				WAREHOUSE
+			</a>
+			<div class="nav__btns">
+				<!-- Theme change button -->
+				<form action="" id="search-bar" class="search">
+					<input type="search" placeholder="Type something..."
+						class="search__input"> <a href="#"><i
+						class='bx bx-search'></i></a>
+				</form>
+				<i class='bx bx-moon change-theme' id="theme-button"></i>
+				<div class="nav__toggle" id="nav-toggle">
+					<i class='bx bx-grid-alt'></i>
+				</div>
+
+				<div class="nav__user" id="info-user">
+					<a href="/manager/dashboard"><i class='bx bx-user'></i></a>
+					<ul class="dropMenu">
+						<li>
+							<div
+								style="display: flex; justify-content: center; align-items: center;">
+								<p th:text="${staff.getFirst_name()} + ' ' + ${staff.getLast_name()} "></p>
+							</div>
+							<p style="font-size: 14px; color: rgb(118, 113, 113);" th:text = "${staff.getRole().getRole_name()}"></p>
+						</li>
+						<li><img src="../assets/img/edit.png" alt=""> <a
+							href="/profile">Edit Profile</a></li>
+						<li><img src="../assets/img/logout.png" alt=""> <a
+							style="color: rgb(242, 90, 90);" href="/home">Logout</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<!-- SIDEBAR -->
+	<section id="sidebar">
+		<ul class="side-menu top">
+			<li class="active"><a href="/manager/dashboard" class="active">
+					<img src="../assets/img/dashboard.png" alt=""> <span
+					class="text">Dashboard</span>
+			</a></li>
+			<li class="stockkeeper inspector" th:if="${role_id == 2}"><a href="/manager/product">
+					<img src="../assets/img/sneakers.png" alt=""> <span
+					class="text">Product</span>
+			</a></li>
+			<li class="sales_manager" th:if="${role_id == 1}"><a
+				href="/manager/ex_request"> <img
+					src="../assets/img/sneakers_sale.png" alt=""> <span
+					class="text">Product for sale</span>
+			</a></li>
+			<li class="stockkeeper sales_manager"><a href="/manager/request">
+					<img src="../assets/img/request.png" alt=""> <span
+					class="text">Request</span>
+			</a></li>
+			<li class="stockkeeper inspector sales_manager"><a
+				href="/manager/order"> <img src="../assets/img/oders.png" alt="">
+
+					<span class="text">Orders</span>
+			</a></li>
+			<li class="stockkeeper accountting"><a href="/manager/receipt">
+					<img src="../assets/img/Delivery.png" alt=""> <span
+					class="text">Goods receipt</span>
+			</a></li>
+			<li class="stockkeeper accountting"><a href="/manager/issue">
+					<img src="../assets/img/transfer.png" alt=""> <span
+					class="text">Goods Issue</span>
+			</a></li>
+			<li class="stockkeeper inspector"><a href="/manager/inventory">
+					<img src="../assets/img/inventory.png" alt=""> <span
+					class="text">Inventory Report</span>
+			</a></li>
+			<li class="stockkeeper accountting"><a href="/manager/invoice">
+					<img src="../assets/img/invoice.png" alt=""> <span
+					class="text">Invoice</span>
+			</a></li>
+			<li class="stockkeeper"><a href="/manager/staff"> <img
+					src="../assets/img/staff.png" alt=""> <span class="text">Staff</span>
+			</a></li>
+			<li class="sales_manager sales_staff"><a
+				href="/manager/supplier"> <img src="../assets/img/nike.png"
+					alt=""> <span class="text">Supplier</span>
+			</a></li>
+			<li class="sales_manager sales_staff"><a href="/manager/store">
+					<img src="../assets/img/store.png" alt=""> <span class="text">Store</span>
+			</a></li>
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+
+			<a href="#" class="nav-link"><i class='bx bx-menu'></i></a> <a
+				href="#" class="btn-download"> <i class='bx bxs-cloud-download'></i>
+				<span class="text">Download PDF</span>
+			</a> <a class="btn-download" href="map"> <img
+				src="../assets/img/map.png" alt=""> <span>View Map</span>
+			</a>
+		</nav>
+		<!-- NAVBAR -->
+
+		<!-- MAIN -->
+		<main>
+			<!-- <nav>
+				<i class='bx bx-menu' ></i>
+				<a href="#" class="nav-link">Categories</a>
+			</nav> -->
+			<div id="main_dashboard">
+				<div class="head-title">
+					<div class="left">
+						<!-- <h1></h1> -->
+						<!-- <ul class="breadcrumb">
+						<li>
+							<a href="#">Thống kê theo năm</a>
+						</li>
+						<li><i class='bx bx-chevron-right'	 ></i></li>
+						<li>
+							<a class="active" href="#">Trang chủ</a>
+						</li>
+					</ul> -->
+					</div>
+				</div>
+				<div class="dashboard_top">
+
+					<ul style="flex: 4" class="box-info">
+						<li><i class='bx bxs-basket'></i> <span class="text">
+								<h3 th:text="${totalProduct}"></h3>
+								<p>Total Product</p>
+						</span></li>
+						<li><i class='bx bxs-group'></i> <span class="text">
+								<h3 th:text="${totalIssue}"></h3>
+								<p>Total Goods Issue</p>
+						</span></li>
+						<li><i class='bx bxs-dollar-circle'></i> <span class="text">
+								<h3 th:text="${totalPrice}"></h3>
+								<p>Total Inventory Cost</p>
+						</span></li>
+						<li><i class='bx bxs-dollar-circle'></i> <span class="text">
+								<h3>2</h3>
+								<p>Total Goods En Route</p>
+						</span></li>
+					</ul>
+					<div style="flex: 6;" class="chart">
+						<!-- <div class="head">
+						<h3>Biểu đồ lợi nhuận</h3>
+					</div> -->
+						<canvas id="myChart"
+							style="width: 100%; max-width: 100%; max-height: 300px;"></canvas>
+					</div>
+				</div>
+
+
+				<div class="dashboard_bottom">
+					<div style="flex: 4;" class="topProduct">
+						<div class="recent_order">
+							<div class="head">
+								<h3>Recent Order</h3>
+								<a href="/manager/order">SEE ALL</a>
+							</div>
+							<ul>
+								<li th:each = "order : ${order}">
+									<p> # <span th:text = "${order.g_order_id}"></span></p>
+									<p th:text="${#dates.format(order.date, 'dd-MM-yyyy')}"></p>
+									<div class="status completed">Completed</div>
+								</li>
+								<!-- <li>
+								
+							</li>
+							<li>
+								
+							</li> -->
+							</ul>
+						</div>
+					</div>
+					<div style="flex: 6;" class="notification">
+						<div class="head">
+							<img src="../assets/img/notification.png" alt="">
+							<h3>Notification</h3>
+							<h4 id = count></h4>
+						</div>
+						<div>
+							<ul>
+								<li>
+									<img src="../assets/img/warning.png" alt="">
+									<span>Có vài sản phẩm đang trong tình trạng không đủ cung ứng </span>
+									<a class="btn__detail dashboard" ><img src="../assets/img/info.png" alt="" id="openList"></a>
+								</li>
+								<li th:if = "${role_id == 2}" class="" ><img
+									src="../assets/img/sucess.png" alt=""> <span>Danh sách phiếu
+										đề nghị nhập hàng <span id="id_request"></span> của bạn
+										đã được duyệt
+								</span> <a class="btn__detail dashboard" th:href="@{/manager/requestImport/{id}(id=${staff.staff_id})}"><img
+										src="../assets/img/info.png" alt=""></a></li>
+								<li th:if = "${role_id == 1}" class="/manager/addProduct1"><img
+									src="../assets/img/request.png" alt=""> <span>Hiện
+										tại đang có phiếu yêu cầu xuất hàng đang chờ duyệt</span> <a
+									class="btn__detail dashboard" th:href="@{/manager/requestExport/{id}(id=${staff.staff_id})}"><img
+										src="../assets/img/info.png" alt="" ></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+			<!-- END STATISTICS-->
+		</main>
+		<dialog id="dia-request" style="margin: 10% 3%">
+		<div style="display: block;" class="request-content">
+			<div class="head_request">
+				<div>
+					<h4><i class='bx bxl-medium-old'></i> MY WAREHOUSE</h4>
+					<h5>Address: ABC, DEF, HG</h5>
+				</div>
+				<div>
+					<h5>SOCIALIST REPUBLIC OF VIETNAM</h5>
+					<h5>Independence - Freedom - Happiness</h5>
+				</div>
+			</div>
+			<h3 class="title">PRODUCT LIST IS INSUFFICIENT SUPPLY QUANTITY </h3>
+			<div class="info_product">
+				<table>
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Name</th>
+							<th>Quantity</th>
+						</tr>
+					</thead>
+					<tbody id="listProductReq">
+					<tr th:each="predict: ${predict}">
+					<td th:text = "${predict.product_id}"></td>
+					<td th:text = "${predict.product_name}"></td>
+					<td th:text = "${predict.predicted_value}"></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="group-btn">
+			<!-- <button class="submit">Send request</button> -->
+			<button id="close-dia" value="cancel">Close</button>
+		</div>
+	</dialog>
+	</section>
+	<!-- CONTENT -->
+<div id="data-container" th:data-date-list="${listDate}" th:data-price-list="${listPrice}"></div>
+
+	<!--=============== SCROLL UP ===============-->
+	<a href="#" class="scrollup" id="scroll-up"> <i
+		class='bx bx-up-arrow-alt scrollup__icon'></i>
+	</a>
+
+	<!--=============== SWIPER JS ===============-->
+	<script src="../assets/js/swiper-bundle.min.js"></script>
+
+	<!--=============== MAIN JS ===============-->
+	<script src="../assets/js/main.js"></script>
+	<script src="../assets/js/lineChart.js"></script>
+	<script src="../assets/js/theme.js"></script>
+
+
+	<script th:inline="javascript">
+		var count = document.getElementById("count");
+		var li = document.querySelectorAll(".notification ul li").length;
+		count.innerText = li;
+
+
+		const openList = document.getElementById("openList");
+		const div = document.getElementById("dia-request");
+		openList.addEventListener("click", function(){
+			div.style.display = "block";
+		})
+
+		const closeList = document.getElementById("close-dia");
+			closeList.addEventListener("click", function () {
+				div.style.display = "none";
+			})
+var yValues = JSON.parse(document.getElementById("data-container").getAttribute("data-price-list"));
+var xValues = JSON.parse(document.getElementById("data-container").getAttribute("data-date-list"));
+
+// Bây giờ bạn có thể sử dụng dateList và priceList trong JavaScript.
+console.log(xValues);
+console.log(yValues);
+
+new Chart("myChart", {
+  type: "line",
+  data: {
+    labels: xValues,
+    datasets: [
+      {
+        fill: false,
+        lineTension: 0,
+        backgroundColor: "rgba(0,0,255,1.0)",
+        borderColor: "rgba(0,0,255,0.1)",
+        data: yValues,
+      },
+    ],
+  }
+});
+
+	</script>
+
+</body>
+</html>
